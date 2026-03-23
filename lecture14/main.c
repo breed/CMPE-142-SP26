@@ -4,7 +4,7 @@
 
 uint64_t generate_random(int cr3) {
     uint64_t r = rand();
-    uint64_t top = r << 63;
+    uint64_t top = cr3 ? 0 : r << 63;
     r >>=1;
     uint64_t bottom = cr3 ? 2 : 0x67;
     return ((r % 0xFFFFF) << 12) | top | bottom;
@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
 
     uint64_t paddr = cr3 & (~0xfff);
 
-    for (int i = 0; i < levels; ++i) {
+    for (int i = levels-1; i >= 0; --i) {
         int entry_index = (VPN >> i * entry_bits) &
                   ((1<<entry_bits) -1);
         printf("P%d %x entry_index\n", i+1, entry_index);
