@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <unistd.h>
 
 uint64_t generate_random(int cr3) {
     uint64_t r = rand();
@@ -11,6 +12,7 @@ uint64_t generate_random(int cr3) {
 }
 
 int main(int argc, char **argv) {
+    srand(getpid());
     if (argc != 4) {
         printf("USAGE: page_size_kb levels 64/32\n");
         exit(1);
