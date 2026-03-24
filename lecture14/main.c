@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
 
     printf("CR3 = %lx addr %lx VPN %lx offset %lx\n", cr3, addr, VPN, offset);
 
-    uint64_t paddr = cr3 & (~0xfff);
+    uint64_t paddr = cr3 & (~((1<<page_bits)-1));
 
     for (int i = levels-1; i >= 0; --i) {
         int entry_index = (VPN >> i * entry_bits) &
@@ -57,6 +57,8 @@ int main(int argc, char **argv) {
         printf("P%d %lx entry byte offset\n", i+1, boffset);
         uint64_t naddr = generate_random(0);
         printf("P%d read %lx and found %lx\n", i+1, paddr + boffset, naddr);
-        paddr = naddr & (~0x8000000000000FFFULL);
+        paddr = naddr & (~0x8000000000000000ULL) & ~((1<<page_bits)-1);
     }
+    uint64_t ppn = paddr >> page_bits;
+    printf("PPN %lx Physical addr %lx\n", ppn, paddr | offset); 
 }
