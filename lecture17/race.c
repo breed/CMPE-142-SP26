@@ -16,8 +16,8 @@ void *do_race(void *arg)
     printf("racer %s started\n", racer);
     for (int i = 0; i < CHECKPOINTS; i++) {
         sleep(2);
-        if (checkpoints++ % RACERS == 0) printf("-----\n");
         printf("%d: %s\n", i, racer);
+        if (++checkpoints % RACERS == 0) printf("-----\n");
     }
     sleep(2);
     printf("racer %s finished\n", racer);

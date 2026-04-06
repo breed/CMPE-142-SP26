@@ -27,7 +27,7 @@ printf("%s: begin\n", (char *) arg);
 int main(int argc, char *argv[]) {
     pthread_t p1, p2;
     printf("main: begin (counter = %d)\n", counter);
-#if 0
+#if 1
     mythread("A");
     mythread("B");
 #else
